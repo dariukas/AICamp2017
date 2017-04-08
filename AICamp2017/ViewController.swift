@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        run()
     }
     
     override func didReceiveMemoryWarning() {
@@ -22,21 +22,34 @@ class ViewController: UIViewController {
     
     func run() {
         do {
-            let structure = try NeuralNet.Structure(inputs: 784, hidden: 420, outputs: 10)
+            let structure = try NeuralNet.Structure(inputs: 2, hidden: 2, outputs: 1)
             let config = try NeuralNet.Configuration(activation: .sigmoid, learningRate: 0.5, momentum: 0.3)
             let nn = try NeuralNet(structure: structure, config: config)
+            training(neuralNet: nn)
         }
         catch let specialError as NSError {
             print(specialError.description)
         }
     }
     
-    func training() {
-        let dataset = try NeuralNet.Dataset(trainInputs: myTrainingData,
-                                            trainLabels: myTrainingLabels,
-                                            validationInputs: myValidationData,
-                                            validationLabels: myValidationLabels,
-                                            structure: structure)
+    func training(neuralNet: NeuralNet) {
+
+        let myTrainingData: [[Float]] = [[0.0, 0.0], [0.0, 1.0], [1.0, 0.0], [1.0, 1.0]]
+        let myTrainingLabels: [[Float]] = [[1.0, 1.0]]
+        let myValidationData = myTrainingData as [[Float]]
+        let myValidationLabels = myTrainingLabels as [[Float]]
+        
+        do {
+            //let structure = try NeuralNet.Structure(inputs: 2, hidden: 2, outputs: 1)
+            let dataset = try NeuralNet.Dataset(trainInputs: myTrainingData, trainLabels: myTrainingLabels, validationInputs: myValidationData, validationLabels: myValidationLabels, structure: neuralNet.structure)
+            let weigths = try neuralNet.train(dataset, cost: .crossEntropy, errorThreshold: 0.001)
+            print("Result \(weigths)")
+            print(neuralNet.allWeights())
+            
+        }
+        catch let error as NSError  {
+            print(error)
+        }
         
     }
     

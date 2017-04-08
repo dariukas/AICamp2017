@@ -20,6 +20,7 @@
 		A339F4281E9988150031C506 /* NeuralNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A339F4201E9988150031C506 /* NeuralNet.swift */; };
 		A339F4291E9988150031C506 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A339F4211E9988150031C506 /* Storage.swift */; };
 		A339F42A1E9988150031C506 /* Structure.swift in Sources */ = {isa = PBXBuildFile; fileRef = A339F4221E9988150031C506 /* Structure.swift */; };
+		A36E538A1E998C7100234B52 /* BNNSExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36E53891E998C7100234B52 /* BNNSExample.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		A339F4201E9988150031C506 /* NeuralNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuralNet.swift; sourceTree = "<group>"; };
 		A339F4211E9988150031C506 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		A339F4221E9988150031C506 /* Structure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structure.swift; sourceTree = "<group>"; };
+		A36E53891E998C7100234B52 /* BNNSExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BNNSExample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				A339F4081E9986620031C506 /* AppDelegate.swift */,
+				A36E53891E998C7100234B52 /* BNNSExample.swift */,
 				A339F40A1E9986620031C506 /* ViewController.swift */,
 				A339F40C1E9986620031C506 /* Main.storyboard */,
 				A339F40F1E9986620031C506 /* Assets.xcassets */,
@@ -168,6 +171,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A36E538A1E998C7100234B52 /* BNNSExample.swift in Sources */,
 				A339F4281E9988150031C506 /* NeuralNet.swift in Sources */,
 				A339F4261E9988150031C506 /* Cost.swift in Sources */,
 				A339F4271E9988150031C506 /* Dataset.swift in Sources */,
@@ -337,6 +341,7 @@
 				A339F4191E9986620031C506 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
