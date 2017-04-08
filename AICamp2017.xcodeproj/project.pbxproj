@@ -12,6 +12,14 @@
 		A339F40E1E9986620031C506 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A339F40C1E9986620031C506 /* Main.storyboard */; };
 		A339F4101E9986620031C506 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A339F40F1E9986620031C506 /* Assets.xcassets */; };
 		A339F4131E9986620031C506 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A339F4111E9986620031C506 /* LaunchScreen.storyboard */; };
+		A339F4231E9988150031C506 /* Activation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A339F41B1E9988150031C506 /* Activation.swift */; };
+		A339F4241E9988150031C506 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A339F41C1E9988150031C506 /* Cache.swift */; };
+		A339F4251E9988150031C506 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = A339F41D1E9988150031C506 /* Config.swift */; };
+		A339F4261E9988150031C506 /* Cost.swift in Sources */ = {isa = PBXBuildFile; fileRef = A339F41E1E9988150031C506 /* Cost.swift */; };
+		A339F4271E9988150031C506 /* Dataset.swift in Sources */ = {isa = PBXBuildFile; fileRef = A339F41F1E9988150031C506 /* Dataset.swift */; };
+		A339F4281E9988150031C506 /* NeuralNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A339F4201E9988150031C506 /* NeuralNet.swift */; };
+		A339F4291E9988150031C506 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A339F4211E9988150031C506 /* Storage.swift */; };
+		A339F42A1E9988150031C506 /* Structure.swift in Sources */ = {isa = PBXBuildFile; fileRef = A339F4221E9988150031C506 /* Structure.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +30,14 @@
 		A339F40F1E9986620031C506 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A339F4121E9986620031C506 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A339F4141E9986620031C506 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A339F41B1E9988150031C506 /* Activation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activation.swift; sourceTree = "<group>"; };
+		A339F41C1E9988150031C506 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
+		A339F41D1E9988150031C506 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		A339F41E1E9988150031C506 /* Cost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cost.swift; sourceTree = "<group>"; };
+		A339F41F1E9988150031C506 /* Dataset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dataset.swift; sourceTree = "<group>"; };
+		A339F4201E9988150031C506 /* NeuralNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuralNet.swift; sourceTree = "<group>"; };
+		A339F4211E9988150031C506 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		A339F4221E9988150031C506 /* Structure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structure.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +54,7 @@
 		A339F3FC1E9986620031C506 = {
 			isa = PBXGroup;
 			children = (
+				A339F41A1E9988150031C506 /* Swift-AI */,
 				A339F4071E9986620031C506 /* AICamp2017 */,
 				A339F4061E9986620031C506 /* Products */,
 			);
@@ -62,6 +79,21 @@
 				A339F4141E9986620031C506 /* Info.plist */,
 			);
 			path = AICamp2017;
+			sourceTree = "<group>";
+		};
+		A339F41A1E9988150031C506 /* Swift-AI */ = {
+			isa = PBXGroup;
+			children = (
+				A339F41B1E9988150031C506 /* Activation.swift */,
+				A339F41C1E9988150031C506 /* Cache.swift */,
+				A339F41D1E9988150031C506 /* Config.swift */,
+				A339F41E1E9988150031C506 /* Cost.swift */,
+				A339F41F1E9988150031C506 /* Dataset.swift */,
+				A339F4201E9988150031C506 /* NeuralNet.swift */,
+				A339F4211E9988150031C506 /* Storage.swift */,
+				A339F4221E9988150031C506 /* Structure.swift */,
+			);
+			path = "Swift-AI";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,7 +168,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A339F4281E9988150031C506 /* NeuralNet.swift in Sources */,
+				A339F4261E9988150031C506 /* Cost.swift in Sources */,
+				A339F4271E9988150031C506 /* Dataset.swift in Sources */,
 				A339F40B1E9986620031C506 /* ViewController.swift in Sources */,
+				A339F4231E9988150031C506 /* Activation.swift in Sources */,
+				A339F4291E9988150031C506 /* Storage.swift in Sources */,
+				A339F4251E9988150031C506 /* Config.swift in Sources */,
+				A339F42A1E9988150031C506 /* Structure.swift in Sources */,
+				A339F4241E9988150031C506 /* Cache.swift in Sources */,
 				A339F4091E9986620031C506 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
