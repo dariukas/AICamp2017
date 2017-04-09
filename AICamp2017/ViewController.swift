@@ -20,8 +20,11 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
     func run2() {
+        
+        let url = URL(fileURLWithPath: Bundle.main.resourcePath!+"/TrainingResult")
+        print(url)
+        
         let labeledImages = getImages(directoryName: "LbImages")
         let labeledModel = convertToColors(labeledImages, true)
         let restOfImages = getImages(directoryName: "ButterfliesImages")
@@ -33,7 +36,7 @@ class ViewController: UIViewController {
         var trainingData: [[Float]] = []
         var trainingLabels: [[Float]] = []
         for model in models {
-            trainingData.append(model.0 as! [Float])
+            trainingData.append(model.0)
             if (model.1) {
                 trainingLabels.append([1.0])
             } else {
@@ -41,16 +44,43 @@ class ViewController: UIViewController {
             }
         }
         print("Training Started")
+        do {
+            let structure = try NeuralNet.Structure(inputs: 100, hidden: 100, outputs: 1)
+            let config = try NeuralNet.Configuration(activation: .sigmoid, learningRate: 0.5, momentum: 0.3)
+            let nn = try NeuralNet(structure: structure, config: config)
+            training(neuralNet: nn, trainingData: trainingData, labeledData: trainingLabels)
+//            inferencing(neuralNet: nn)
+        }
+        catch let specialError as NSError {
+            print(specialError.description)
+        }
+
     }
+    
+    
+    func training(neuralNet: NeuralNet, trainingData: [[Float]], labeledData: [[Float]]) {
+        do {
+            let dataset = try NeuralNet.Dataset(trainInputs: trainingData, trainLabels: labeledData, validationInputs: trainingData, validationLabels: labeledData, structure: neuralNet.structure)
+            let weigths = try neuralNet.train(dataset, cost: .crossEntropy, errorThreshold: 0.001)
+            print("Result \(weigths)")
+            let url = URL(fileURLWithPath: Bundle.main.resourcePath!+"/TrainingResult")
+            try neuralNet.save(to: url)
+            //print(neuralNet.allWeights())
+        }
+        catch let error as NSError  {
+            print(error.description)
+        }
+    }
+    
 
     
-    func convertToColors(_ images: [String: UIImage], _ type: Bool) -> [([[Float]], Bool)] {
-        var result: [([[Float]], Bool)] = []
+    func convertToColors(_ images: [String: UIImage], _ type: Bool) -> [([Float], Bool)] {
+        var result: [([Float], Bool)] = []
         let ic = ImageColors()
         for image in images {
             //            let queue = DispatchQueue(label: "com.app.\(image.key)")
             //            queue.async {
-            let colors: [[Float]] = ic.convertToColors(cgImage: ic.cgImageFromUIImage(image.value)!)
+            let colors: [Float] = ic.findColors()
             print("\(image.key) has: \(colors.count)")
             result.append((colors, type))
             //            }
