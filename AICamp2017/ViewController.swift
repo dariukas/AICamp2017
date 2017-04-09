@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        run()
+        run2()
     }
     
     override func didReceiveMemoryWarning() {
@@ -20,6 +20,91 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    func run2() {
+        let labeledImages = getImages(directoryName: "LbImages")
+        let labeledModel = convertToColors(labeledImages, true)
+        let restOfImages = getImages(directoryName: "ButterfliesImages")
+        let restModel = convertToColors(restOfImages, false)
+        
+        let models = labeledModel+restModel
+        
+        print("Adding Data")
+        var trainingData: [[Float]] = []
+        var trainingLabels: [[Float]] = []
+        for model in models {
+            trainingData.append(model.0 as! [Float])
+            if (model.1) {
+                trainingLabels.append([1.0])
+            } else {
+                trainingLabels.append([0.0])
+            }
+        }
+        print("Training Started")
+    }
+
+    
+    func convertToColors(_ images: [String: UIImage], _ type: Bool) -> [([[Float]], Bool)] {
+        var result: [([[Float]], Bool)] = []
+        let ic = ImageColors()
+        for image in images {
+            //            let queue = DispatchQueue(label: "com.app.\(image.key)")
+            //            queue.async {
+            let colors: [[Float]] = ic.convertToColors(cgImage: ic.cgImageFromUIImage(image.value)!)
+            print("\(image.key) has: \(colors.count)")
+            result.append((colors, type))
+            //            }
+        }
+        return result
+    }
+    
+    func getImages(directoryName: String) -> [String:UIImage] {
+//        if let filePath = Bundle.main.path(forResource: "lbImages1", ofType: "jpeg", inDirectory: "LbImages") {
+//            print(filePath)
+//        }
+//        let paths = Bundle.main.paths(forResourcesOfType: "jpeg", inDirectory: "LbImages")
+        var images: [String:UIImage] = [:]
+        if let resourcePath = Bundle.main.resourcePath {
+            let fileManager = FileManager.default
+            do {
+                let paths = try fileManager.contentsOfDirectory(atPath: resourcePath+"/\(directoryName)")
+                //print(fileManager.subpaths(atPath: resourcePath+"\\"+"LbImages") as Any)
+                for path in paths {
+                    let url = URL(fileURLWithPath: path)
+                    if (url.pathExtension == "jpeg" || url.pathExtension == "png") {
+                        if let image = UIImage(named: "\(directoryName)/\(path)") {
+                            images.updateValue(image, forKey: path)
+                            //                            images.append(image!)
+                        }
+                    }
+                }
+            } catch {
+                print(error)
+            }
+        }
+        return images
+    }
+    //    func printDirectory() {
+    //
+//        let fileManager = FileManager.default
+//        do {
+//            let resourceKeys : [URLResourceKey] = [.creationDateKey, .isDirectoryKey]
+//            let documentsURL = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+//            let enumerator = FileManager.default.enumerator(at: documentsURL,
+//                                                            includingPropertiesForKeys: resourceKeys,
+//                                                            options: [.skipsHiddenFiles], errorHandler: { (url, error) -> Bool in
+//                                                                print("directoryEnumerator error at \(url): ", error)
+//                                                                return true
+//            })!
+//            
+//            for case let fileURL as URL in enumerator {
+//                let resourceValues = try fileURL.resourceValues(forKeys: Set(resourceKeys))
+//                print(fileURL.path, resourceValues.creationDate!, resourceValues.isDirectory!)
+//            }
+//        } catch {
+//            print(error)
+//        }
+//    }
     
     //https://github.com/Swift-AI/Swift-AI/blob/master/Documentation/NeuralNet.md#multi-layer-feed-forward-neural-network
     func run() {
@@ -63,7 +148,7 @@ class ViewController: UIViewController {
             print(error.description)
         }
         
-        let input: [Float] = [0.0, 0.0]
+        let input: [Float] = [0.6, 0.0]
         do{
             let output = try neuralNet.infer(input)
             print(output)        }
