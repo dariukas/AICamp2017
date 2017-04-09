@@ -10,7 +10,7 @@ import UIKit
 
 class ImageColors: UIImage {
     
-     var dimension: Int = 10
+     var dimension: Int = 1
     
     //find all colors of UIImage
     func findColors() -> [Float] {

@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        run2()
+        run()
     }
     
     override func didReceiveMemoryWarning() {
@@ -45,7 +45,7 @@ class ViewController: UIViewController {
         }
         print("Training Started")
         do {
-            let structure = try NeuralNet.Structure(inputs: 100, hidden: 100, outputs: 1)
+            let structure = try NeuralNet.Structure(inputs: 1, hidden: 1, outputs: 1)
             let config = try NeuralNet.Configuration(activation: .sigmoid, learningRate: 0.5, momentum: 0.3)
             let nn = try NeuralNet(structure: structure, config: config)
             training(neuralNet: nn, trainingData: trainingData, labeledData: trainingLabels)
@@ -57,28 +57,38 @@ class ViewController: UIViewController {
 
     }
     
+    func createNeuralNet(inputsNumber: Int, outputsNumber: Int) -> NeuralNet? {
+        var neuralNet: NeuralNet? = nil
+        do {
+            let hiddenInputsNumber = Int((inputsNumber * 2/3) + outputsNumber)
+            let structure = try NeuralNet.Structure(inputs: inputsNumber, hidden: hiddenInputsNumber, outputs: outputsNumber)
+            let config = try NeuralNet.Configuration(activation: .sigmoid, learningRate: 0.5, momentum: 0.3)
+            neuralNet = try NeuralNet(structure: structure, config: config)
+        }
+        catch let specialError as NSError {
+            print(specialError.description)
+        }
+        return neuralNet
+    }
     
     func training(neuralNet: NeuralNet, trainingData: [[Float]], labeledData: [[Float]]) {
         do {
             let dataset = try NeuralNet.Dataset(trainInputs: trainingData, trainLabels: labeledData, validationInputs: trainingData, validationLabels: labeledData, structure: neuralNet.structure)
             let weigths = try neuralNet.train(dataset, cost: .crossEntropy, errorThreshold: 0.001)
             print("Result \(weigths)")
-            let url = URL(fileURLWithPath: Bundle.main.resourcePath!+"/TrainingResult")
-            try neuralNet.save(to: url)
-            //print(neuralNet.allWeights())
+            print("Saving the weigths")
+            try neuralNet.save(to: getStoreURL(filename: "TrainingResult.txt"))
         }
         catch let error as NSError  {
             print(error.description)
         }
     }
     
-
-    
     func convertToColors(_ images: [String: UIImage], _ type: Bool) -> [([Float], Bool)] {
         var result: [([Float], Bool)] = []
         let ic = ImageColors()
         for image in images {
-            //            let queue = DispatchQueue(label: "com.app.\(image.key)")
+            //            let queue = DispatchQueue(label: "com.app.\(image.key)", attributes: .concurrent)
             //            queue.async {
             let colors: [Float] = ic.findColors()
             print("\(image.key) has: \(colors.count)")
@@ -132,18 +142,28 @@ class ViewController: UIViewController {
 //                print(fileURL.path, resourceValues.creationDate!, resourceValues.isDirectory!)
 //            }
 //        } catch {
-//            print(error)
-//        }
-//    }
+    //            print(error)
+    //        }
+    //    }
+    
+    
+    func getStoreURL(filename: String) -> URL {
+        let applicationDocumentsDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let storePath: String = URL(fileURLWithPath: applicationDocumentsDir).appendingPathComponent(filename).absoluteString
+        if let url = URL(string: storePath) {
+            return url
+        }
+        return URL(fileURLWithPath: storePath)
+    }
     
     //https://github.com/Swift-AI/Swift-AI/blob/master/Documentation/NeuralNet.md#multi-layer-feed-forward-neural-network
     func run() {
         do {
-            let structure = try NeuralNet.Structure(inputs: 2, hidden: 2, outputs: 1)
-            let config = try NeuralNet.Configuration(activation: .sigmoid, learningRate: 0.5, momentum: 0.3)
-            let nn = try NeuralNet(structure: structure, config: config)
-            //training(neuralNet: nn)
-            inferencing(neuralNet: nn)
+            if let nn: NeuralNet = createNeuralNet(inputsNumber: 2, outputsNumber: 1) {
+                training(neuralNet: nn)
+                try nn.save(to: getStoreURL(filename: "TrainingResult.txt"))
+                //inferencing(neuralNet: nn)
+            }
         }
         catch let specialError as NSError {
             print(specialError.description)
@@ -168,6 +188,8 @@ class ViewController: UIViewController {
         }
     }
     
+    //https://www.invasivecode.com/weblog/convolutional-neural-networks-ios-10-macos-sierra/?doing_wp_cron=1491647238.6945250034332275390625
+    //https://github.com/Swift-AI/Swift-AI/blob/master/Documentation/NeuralNet.md#multi-layer-feed-forward-neural-network
     //https://blogs.nvidia.com/blog/2016/08/22/difference-deep-learning-training-inference-ai/
     func inferencing(neuralNet: NeuralNet) {
         let weights: [Float] =  [1.27217102, -2.62812805, -2.74673152, -2.59496784, 5.33755922, 5.21428537, 2.4808259, 4.77823496, -9.98672009]
